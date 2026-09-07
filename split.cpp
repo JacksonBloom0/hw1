@@ -11,13 +11,48 @@ the function below should be the only one in this file.
 */
 
 #include "split.h"
-
+#include <iostream>
 /* Add a prototype for a helper function here if you need */
-
 void split(Node*& in, Node*& odds, Node*& evens)
 {
-  /* Add code here */
-// WRITE YOUR CODE HERE
+  Node* cur = in;
+  in = nullptr;
+
+  if (cur == nullptr) {
+    return;
+  }
+  if (cur->value % 2 == 0) { // even
+    split(cur->next, odds, evens);
+    insert_at_val(evens, cur);
+  }
+  else { // odd
+    split(cur->next, odds, evens);
+    insert_at_val(odds, cur);
+  }
 }
 
-/* If you needed a helper function, write it here */
+void insert_at_val(Node*& n, Node*& p) {
+  if (n == nullptr) { // set head node
+    n = p;
+    p->next = nullptr;
+    return;
+  }
+  if (n->value > p->value) { // insert at front
+    p->next = n;
+    n = p;
+    return;
+  }
+  if (n->next == nullptr) { // insert at end
+    n->next = p;
+    p->next = nullptr;
+    return;
+  }
+  if (n->next->value > p->value) { // insert at middle
+    Node* temp_next = n->next;
+    n->next = p;
+    p->next = temp_next;
+    return;
+  }
+  
+  return insert_at_val(n->next, p);
+}

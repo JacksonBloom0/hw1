@@ -19,4 +19,6 @@ struct Node
 
 void split(Node*& in, Node*& odds, Node*& evens);
 
+void insert_at_val(Node*& l, Node*& p);
+
 #endif
